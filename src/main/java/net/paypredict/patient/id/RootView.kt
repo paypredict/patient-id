@@ -12,7 +12,6 @@ import com.vaadin.flow.component.html.Hr
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.splitlayout.SplitLayout
-import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
@@ -59,7 +58,7 @@ class RootView : VerticalLayout() {
         )
 
         val results = Div().apply {
-            style["overflow"] = "auto"
+            style["font-size"] = "large"
             this += Div().apply {
                 style["padding"] = "20pt"
                 this += H2(appTitle)
@@ -111,10 +110,8 @@ class RootView : VerticalLayout() {
                     }
 
                     results.removeAll()
-                    results += TextArea().apply {
-                        setSizeFull()
+                    results += PreTemplate().apply {
                         value = response.toStringPP()
-                        isReadOnly = true
                     }
                 }
                 this += runQuery

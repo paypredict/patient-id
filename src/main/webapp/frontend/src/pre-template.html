@@ -1,0 +1,18 @@
+<!-- Dependency resources -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<!-- Defines the example-template element -->
+<dom-module id="pre-template">
+    <template>
+        <pre>[[value]]</pre>
+    </template>
+
+    <script>
+        class PreTemplate extends Polymer.Element {
+            static get is() {
+                return 'pre-template'
+            }
+        }
+        customElements.define(PreTemplate.is, PreTemplate);
+    </script>
+</dom-module>

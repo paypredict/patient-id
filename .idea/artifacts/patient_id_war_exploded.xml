@@ -10,6 +10,8 @@
           <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.2.51" />
           <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.51" />
           <element id="library" level="project" name="Maven: org.jetbrains:annotations:13.0" />
+          <element id="library" level="project" name="Maven: javax.json:javax.json-api:1.0" />
+          <element id="library" level="project" name="Maven: org.glassfish:javax.json:1.0.4" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-core:10.0.1" />
           <element id="library" level="project" name="Maven: com.vaadin:flow-server:1.0.0" />
           <element id="library" level="project" name="Maven: com.google.gwt:gwt-elemental:2.8.2" />

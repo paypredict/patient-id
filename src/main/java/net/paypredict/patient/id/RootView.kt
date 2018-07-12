@@ -43,7 +43,10 @@ class RootView : VerticalLayout() {
         val streetLine2 = TextField("STREET LINE 2")
         val city = TextField("CITY")
         val state = TextField("STATE")
-        val country = TextField("COUNTRY")
+        val country = TextField("COUNTRY").apply {
+            value = "US"
+            isVisible = false
+        }
 
         val parameterMap = mapOf(
             "name" to name,

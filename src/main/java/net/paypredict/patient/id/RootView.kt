@@ -57,11 +57,11 @@ class RootView : VerticalLayout() {
 
         val results = Div().apply {
             style["overflow"] = "auto"
-            this+= Div().apply {
+            this += Div().apply {
                 style["padding"] = "20pt"
                 this += H2(appTitle)
                 this += Text(appDescription).apply {
-                    width = "42em"
+                    style["max-width"] = "42em"
                 }
             }
         }
@@ -70,20 +70,29 @@ class RootView : VerticalLayout() {
             style["overflow"] = "auto"
             parameterMap.values.forEach { textField ->
                 when (textField) {
-                    name -> this += section("Main")
+                    name -> this += section("Main Fields")
                     streetLine1 -> this += section("Additional")
                 }
                 this += Div().apply {
                     style["padding-left"] = "16pt"
                     style["padding-right"] = "8pt"
-                    this += textField.apply { width = "100%" }
+                    this += textField.apply {
+                        width = "100%"
+                        when (this) {
+                            name -> {
+                                isRequired = true
+                                isAutofocus = true
+                            }
+                            postalCode -> isRequired = true
+                        }
+                    }
                 }
             }
             this += section()
 
             this += VerticalLayout().apply {
                 width = "100%"
-                val runQuery = Button("RUN QUERY") {
+                val runQuery = Button("LOOKUP PATIENT") {
 
                     val person_api = whitePagesConf.getString("person_api")
                     val api_key = whitePagesConf.getString("api_key")
@@ -111,7 +120,7 @@ class RootView : VerticalLayout() {
         }
         val splitLayout = SplitLayout(parameters, results).apply {
             setSizeFull()
-            setSplitterPosition(20.0)
+            setSplitterPosition(30.0)
         }
         this += splitLayout
         splitLayout.secondaryComponent

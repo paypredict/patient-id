@@ -15,14 +15,12 @@ import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
+import net.paypredict.patient.id.whitepage.WhitePagePersonGrid
 import java.io.File
-import java.io.StringWriter
 import java.net.URL
 import java.net.URLEncoder
 import javax.json.Json
 import javax.json.JsonObject
-import javax.json.JsonWriterFactory
-import javax.json.stream.JsonGenerator
 
 /**
  * The main view contains a button and a template element.
@@ -31,6 +29,23 @@ import javax.json.stream.JsonGenerator
 @Route("")
 @PageTitle(appTitle)
 class RootView : VerticalLayout() {
+
+    private val confDir = File("/PayPredict/conf")
+    private val whitePagesConf: JsonObject by lazy {
+        confDir
+            .resolve("whitepages.json")
+            .run { Json.createReader(reader()).use { it.readObject() } }
+    }
+
+    private val whitePagesDebug: JsonObject? get() =
+        confDir
+            .resolve("whitepages-debug.json")
+            .run {
+                when {
+                    isFile -> Json.createReader(reader()).use { it.readObject() }
+                    else -> null
+                }
+            }
 
     init {
         className = "root-layout"
@@ -58,14 +73,19 @@ class RootView : VerticalLayout() {
         )
 
         val results = Div().apply {
-            style["font-size"] = "large"
             this += Div().apply {
+                style["font-size"] = "large"
                 style["padding"] = "20pt"
                 this += H2(appTitle)
                 this += Text(appDescription).apply {
                     style["max-width"] = "42em"
                 }
             }
+        }
+
+        whitePagesDebug?.let {
+            results.removeAll()
+            results += WhitePagePersonGrid(it)
         }
 
         val parameters = Div().apply {
@@ -104,15 +124,13 @@ class RootView : VerticalLayout() {
                             it.key + "=" + URLEncoder.encode(it.value.value, "UTF-8")
                         }
 
-                    val url = URL("$person_api?api_key=$api_key&$query")
+                    val url = URL("$person_api?api_key=$api_key&search.metro=true&$query")
                     val response = url.openConnection().getInputStream().let {
                         Json.createReader(it).readObject()
                     }
 
                     results.removeAll()
-                    results += PreTemplate().apply {
-                        value = response.toStringPP()
-                    }
+                    results += WhitePagePersonGrid(response)
                 }
                 this += runQuery
                 this.setHorizontalComponentAlignment(Alignment.END, runQuery)
@@ -126,19 +144,6 @@ class RootView : VerticalLayout() {
         splitLayout.secondaryComponent
     }
 
-    private val confDir = File("/PayPredict/conf")
-    private val whitePagesConf: JsonObject by lazy {
-        confDir
-            .resolve("whitepages.json")
-            .let { Json.createReader(it.reader()).use { it.readObject() } }
-    }
-    private val jsonPP: JsonWriterFactory by lazy {
-        Json.createWriterFactory(mapOf<String, Any>(JsonGenerator.PRETTY_PRINTING to true))
-    }
-
-    private fun JsonObject.toStringPP(): String =
-        StringWriter().use { jsonPP.createWriter(it).write(this); it }.toString().trimStart()
-
     private fun section(caption: String = "") =
         Div().apply {
             this += H3(caption).apply {
@@ -148,11 +153,11 @@ class RootView : VerticalLayout() {
         }
 }
 
-private operator fun HasComponents.plusAssign(value: Component) {
+operator fun HasComponents.plusAssign(value: Component) {
     add(value)
 }
 
-private const val appTitle = "Fast and Accurate Patient Entry"
+private const val appTitle = "Fast and Accurate Patient Data Entry"
 
 private const val appDescription = """
 Our real-time identity validation technology allows entering patient information quickly

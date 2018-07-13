@@ -1,7 +1,9 @@
 package net.paypredict.patient.id
 
 import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.ComponentEventListener
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.Key
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dependency.HtmlImport
@@ -134,6 +136,12 @@ class RootView : VerticalLayout() {
                 }
                 this += runQuery
                 this.setHorizontalComponentAlignment(Alignment.END, runQuery)
+
+                parameterMap.values.forEach {
+                    it.addKeyPressListener(Key.ENTER, ComponentEventListener {
+                        runQuery.click()
+                    })
+                }
             }
         }
         val splitLayout = SplitLayout(parameters, results).apply {

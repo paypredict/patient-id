@@ -29,7 +29,7 @@ import javax.json.JsonObject
 @HtmlImport("styles/shared-styles.html")
 @Route("")
 @PageTitle(appTitle)
-class RootView : VerticalLayout() {
+class WhitePagesPersonView : VerticalLayout() {
 
     private val confDir = File("/PayPredict/conf")
     private val whitePagesConf: JsonObject by lazy {

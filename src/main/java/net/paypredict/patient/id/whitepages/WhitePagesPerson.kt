@@ -1,4 +1,4 @@
-package net.paypredict.patient.id.whitepage
+package net.paypredict.patient.id.whitepages
 
 import kotlin.properties.ReadOnlyProperty
 

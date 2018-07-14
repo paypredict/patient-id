@@ -1,4 +1,4 @@
-package net.paypredict.patient.id.whitepage
+package net.paypredict.patient.id.whitepages
 
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.grid.Grid
@@ -6,7 +6,6 @@ import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H4
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.renderer.TemplateRenderer
-import net.paypredict.patient.id.plusAssign
 import java.io.StringWriter
 import javax.json.*
 import javax.json.stream.JsonGenerator

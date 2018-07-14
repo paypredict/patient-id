@@ -1,4 +1,4 @@
-package net.paypredict.patient.id
+package net.paypredict.patient.id.whitepages
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.ComponentEventListener
@@ -17,7 +17,6 @@ import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
-import net.paypredict.patient.id.whitepage.WhitePagePersonGrid
 import java.io.File
 import java.net.URL
 import java.net.URLEncoder

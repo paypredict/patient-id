@@ -23,6 +23,7 @@
 
         <!-- Dependencies -->
         <vaadin.version>10.0.1</vaadin.version>
+        <mongodb.version>3.4.2</mongodb.version>
         <jetty.version>9.4.11.v20180605</jetty.version>
     </properties>
 
@@ -78,6 +79,12 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
             <version>1.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>${mongodb.version}</version>
         </dependency>
 
         <dependency>

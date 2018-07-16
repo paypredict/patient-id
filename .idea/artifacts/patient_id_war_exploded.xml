@@ -12,6 +12,9 @@
           <element id="library" level="project" name="Maven: org.jetbrains:annotations:13.0" />
           <element id="library" level="project" name="Maven: javax.json:javax.json-api:1.0" />
           <element id="library" level="project" name="Maven: org.glassfish:javax.json:1.0.4" />
+          <element id="library" level="project" name="Maven: org.mongodb:mongodb-driver:3.4.2" />
+          <element id="library" level="project" name="Maven: org.mongodb:bson:3.4.2" />
+          <element id="library" level="project" name="Maven: org.mongodb:mongodb-driver-core:3.4.2" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-core:10.0.1" />
           <element id="library" level="project" name="Maven: com.vaadin:flow-server:1.0.0" />
           <element id="library" level="project" name="Maven: com.google.gwt:gwt-elemental:2.8.2" />
@@ -31,20 +34,17 @@
           <element id="library" level="project" name="Maven: com.vaadin:flow-data:1.0.0" />
           <element id="library" level="project" name="Maven: javax.validation:validation-api:2.0.0.Final" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-lumo-theme:1.0.0" />
-          <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-lumo-styles:1.0.0" />
+          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-flex-layout:2.0.3" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymer:polymer:2.6.0" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.webcomponents:shadycss:1.2.1" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.webcomponents:webcomponentsjs:1.2.0" />
-          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-icon:2.1.0" />
-          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-meta:2.1.1" />
-          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-iconset-svg:2.2.1" />
-          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-flex-layout:2.0.3" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-button-flow:1.0.0" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-button:2.0.1" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-control-state-mixin:2.0.3" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-element-mixin:1.0.2" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-usage-statistics:1.0.8" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-development-mode-detector:1.0.3" />
+          <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-lumo-styles:1.1.0-alpha3" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-themable-mixin:1.1.6" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-checkbox-flow:1.0.0" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-checkbox:2.1.1" />
@@ -53,7 +53,8 @@
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-resizable-behavior:2.1.0" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-a11y-announcer:2.1.0" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-a11y-keys-behavior:2.1.1" />
-          <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-item:2.0.0" />
+          <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-item:2.1.0-alpha3" />
+          <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-material-styles:1.1.0-alpha2" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-overlay:3.0.3" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-overlay-behavior:2.3.4" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-fit-behavior:2.2.0" />
@@ -70,6 +71,9 @@
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.0" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-icons-flow:1.0.0" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.vaadin:vaadin-icons:4.1.4" />
+          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-icon:2.1.0" />
+          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-meta:2.1.1" />
+          <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-iconset-svg:2.2.1" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-iron-list-flow:1.0.0" />
           <element id="library" level="project" name="Maven: org.webjars.bowergithub.polymerelements:iron-list:2.0.12" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-list-box-flow:1.0.0" />

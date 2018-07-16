@@ -17,7 +17,6 @@ import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
-import java.io.File
 import java.net.URL
 import java.net.URLEncoder
 import javax.json.Json
@@ -31,15 +30,8 @@ import javax.json.JsonObject
 @PageTitle(appTitle)
 class WhitePagesPersonView : VerticalLayout() {
 
-    private val confDir = File("/PayPredict/conf")
-    private val whitePagesConf: JsonObject by lazy {
-        confDir
-            .resolve("whitepages.json")
-            .run { Json.createReader(reader()).use { it.readObject() } }
-    }
-
     private val whitePagesDebug: JsonObject? get() =
-        confDir
+        WhitePages.dir
             .resolve("whitepages-debug.json")
             .run {
                 when {
@@ -87,6 +79,7 @@ class WhitePagesPersonView : VerticalLayout() {
         whitePagesDebug?.let {
             results.removeAll()
             results += WhitePagePersonGrid(it)
+            WhitePagesPersonCollection.storeResponse("debug", it)
         }
 
         val parameters = Div().apply {
@@ -117,21 +110,22 @@ class WhitePagesPersonView : VerticalLayout() {
                 width = "100%"
                 val runQuery = Button("LOOKUP PATIENT") {
 
-                    val person_api = whitePagesConf.getString("person_api")
-                    val api_key = whitePagesConf.getString("api_key")
-                    val query = parameterMap
+                    val person_api = WhitePages.conf.getString("person_api")
+                    val api_key = WhitePages.conf.getString("api_key")
+                    val query = "search.metro=true&" + parameterMap
                         .entries
                         .joinToString(separator = "&") {
                             it.key + "=" + URLEncoder.encode(it.value.value, "UTF-8")
                         }
 
-                    val url = URL("$person_api?api_key=$api_key&search.metro=true&$query")
+                    val url = URL("$person_api?api_key=$api_key&$query")
                     val response = url.openConnection().getInputStream().let {
                         Json.createReader(it).readObject()
                     }
 
                     results.removeAll()
                     results += WhitePagePersonGrid(response)
+                    WhitePagesPersonCollection.storeResponse(query, response)
                 }
                 this += runQuery
                 this.setHorizontalComponentAlignment(Alignment.END, runQuery)

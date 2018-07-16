@@ -1,23 +1,26 @@
 package net.paypredict.patient.id.whitepages
 
-import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.ComponentEventListener
-import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.Key
-import com.vaadin.flow.component.Text
+import com.mongodb.DBRef
+import com.mongodb.ErrorCategory
+import com.mongodb.MongoWriteException
+import com.vaadin.flow.component.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dependency.HtmlImport
+import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H2
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.html.Hr
+import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
+import net.paypredict.patient.id.DBS
 import net.paypredict.patient.id.PatientId
+import org.bson.Document
 import java.net.URL
 import java.net.URLEncoder
 import javax.json.Json
@@ -31,15 +34,21 @@ import javax.json.JsonObject
 @PageTitle(appTitle)
 class WhitePagesPersonView : VerticalLayout() {
 
-    private val whitePagesDebug: JsonObject? get() =
-        PatientId.dir
-            .resolve("whitepages-debug.json")
-            .run {
-                when {
-                    isFile -> Json.createReader(reader()).use { it.readObject() }
-                    else -> null
+    private val whitePagesDebug: JsonObject?
+        get() =
+            PatientId.dir
+                .resolve("whitepages-debug.json")
+                .run {
+                    when {
+                        isFile -> Json.createReader(reader()).use { it.readObject() }
+                        else -> null
+                    }
                 }
-            }
+    private val whitePagesPersonCollectionName: String by lazy {
+        DBS.Collections.whitePagesPerson().namespace.collectionName
+    }
+
+    private var personGrid: WhitePagePersonGrid? = null
 
     init {
         className = "root-layout"
@@ -79,7 +88,7 @@ class WhitePagesPersonView : VerticalLayout() {
 
         whitePagesDebug?.let {
             results.removeAll()
-            results += WhitePagePersonGrid(it)
+            results += WhitePagePersonGrid(it).also { personGrid = it }
             WhitePagesPersonCollection.storeResponse("debug", it)
         }
 
@@ -90,9 +99,7 @@ class WhitePagesPersonView : VerticalLayout() {
                     name -> this += section("Main Fields")
                     streetLine1 -> this += section("Additional")
                 }
-                this += Div().apply {
-                    style["padding-left"] = "16pt"
-                    style["padding-right"] = "8pt"
+                this += paramsDiv {
                     this += textField.apply {
                         width = "100%"
                         when (this) {
@@ -110,7 +117,6 @@ class WhitePagesPersonView : VerticalLayout() {
             this += VerticalLayout().apply {
                 width = "100%"
                 val runQuery = Button("LOOKUP PATIENT") {
-
                     val person_api = WhitePages.conf.getString("person_api")
                     val api_key = WhitePages.conf.getString("api_key")
                     val query = "search.metro=true&" + parameterMap
@@ -125,7 +131,7 @@ class WhitePagesPersonView : VerticalLayout() {
                     }
 
                     results.removeAll()
-                    results += WhitePagePersonGrid(response)
+                    results += WhitePagePersonGrid(response).also { personGrid = it }
                     WhitePagesPersonCollection.storeResponse(query, response)
                 }
                 this += runQuery
@@ -137,13 +143,70 @@ class WhitePagesPersonView : VerticalLayout() {
                     })
                 }
             }
+
+            this += section()
+            val referenceTextField = TextField("REFERENCE").apply {
+                width = "100%"
+                isRequired = true
+            }
+            this += paramsDiv { this += referenceTextField }
+
+            this += VerticalLayout().apply {
+                width = "100%"
+                val addToRef = Button("ADD TO REFERENCE") {
+                    referenceTextField.isInvalid = false
+                    referenceTextField.errorMessage = null
+                    fun showReferenceError(errorMessage: String) {
+                        referenceTextField.isInvalid = true
+                        referenceTextField.errorMessage = errorMessage
+                    }
+                    val grid = personGrid
+                    val selectedPersonId = grid?.selectedPersonId
+                    if (grid == null || selectedPersonId == null) {
+                        showReferenceError("Patient isn't selected")
+                        return@Button
+                    }
+                    val personIdList = grid.personIdList
+
+                    val reference = DBS.Collections.reference()
+                    fun String.toDBRef(): DBRef = DBRef(whitePagesPersonCollectionName, this)
+                    val document = Document("_id", referenceTextField.value).apply {
+                        this["found"] = personIdList.map { it.toDBRef() }
+                        this["selected"] = selectedPersonId.toDBRef()
+                    }
+                    try {
+                        reference.insertOne(document)
+                        Notification.show("Reference saved", 1000, Notification.Position.BOTTOM_START)
+                        grid.select(null)
+                    } catch (e: Exception) {
+                        if (e is MongoWriteException && e.error.category == ErrorCategory.DUPLICATE_KEY) {
+                            showReferenceError("Reference ${referenceTextField.value} already exists")
+                        } else {
+                            showError(e)
+                            e.printStackTrace()
+                        }
+                    }
+                }
+                this += addToRef
+                this.setHorizontalComponentAlignment(Alignment.END, addToRef)
+                referenceTextField.addKeyPressListener(Key.ENTER, ComponentEventListener {
+                    addToRef.click()
+                })
+            }
+
         }
         val splitLayout = SplitLayout(parameters, results).apply {
             setSizeFull()
             setSplitterPosition(30.0)
         }
         this += splitLayout
-        splitLayout.secondaryComponent
+    }
+
+    private fun showError(e: Throwable) {
+        Dialog().apply {
+            this += H2(Text(e.message))
+            open()
+        }
     }
 
     private fun section(caption: String = "") =
@@ -152,6 +215,13 @@ class WhitePagesPersonView : VerticalLayout() {
                 style["padding-left"] = "9pt"
             }
             this += Hr()
+        }
+
+    private fun paramsDiv(init: Div.() -> Unit): Div =
+        Div().apply {
+            style["padding-left"] = "16pt"
+            style["padding-right"] = "8pt"
+            init()
         }
 }
 

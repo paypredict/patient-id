@@ -18,72 +18,84 @@ import kotlin.reflect.KProperty
  */
 
 class WhitePagePersonGrid(json: JsonObject) : Div() {
+    private val items: List<WhitePagePerson>
+    private val grid: Grid<WhitePagePerson>
+
+    val personIdList: List<String>
+        get() = items.map { it.id }
+
+    val selectedPersonId: String?
+        get() = grid.selectedItems.firstOrNull()?.id
+
+    fun select(item: WhitePagePerson?) {
+        grid.select(item)
+    }
+
     init {
         width = "100%"
         height = "100%"
-        val grid =
-            Grid<WhitePagePerson>().apply {
-                width = "100%"
-                height = "100%"
-                addColumn(
-                    TemplateRenderer
-                        .of<WhitePagePerson>("<div>[[item.firstname]]</div>")
-                        .withProperty("firstname", WhitePagePerson::firstname)
-                ).setHeader("First Name")
+        grid = Grid<WhitePagePerson>().apply {
+            width = "100%"
+            height = "100%"
+            addColumn(
+                TemplateRenderer
+                    .of<WhitePagePerson>("<div>[[item.firstname]]</div>")
+                    .withProperty("firstname", WhitePagePerson::firstname)
+            ).setHeader("First Name")
 
-                addColumn(
-                    TemplateRenderer
-                        .of<WhitePagePerson>("<div>[[item.middlename]]</div>")
-                        .withProperty("middlename", WhitePagePerson::middlename)
-                ).setHeader("MI")
+            addColumn(
+                TemplateRenderer
+                    .of<WhitePagePerson>("<div>[[item.middlename]]</div>")
+                    .withProperty("middlename", WhitePagePerson::middlename)
+            ).setHeader("MI")
 
-                addColumn(
-                    TemplateRenderer
-                        .of<WhitePagePerson>("<div>[[item.lastname]]</div>")
-                        .withProperty("lastname", WhitePagePerson::lastname)
-                ).setHeader("Last Name")
+            addColumn(
+                TemplateRenderer
+                    .of<WhitePagePerson>("<div>[[item.lastname]]</div>")
+                    .withProperty("lastname", WhitePagePerson::lastname)
+            ).setHeader("Last Name")
 
-                addColumn(
-                    TemplateRenderer
-                        .of<WhitePagePerson>("<div>[[item.age_range]]</div>")
-                        .withProperty("age_range", WhitePagePerson::age_range)
-                ).setHeader("Age")
+            addColumn(
+                TemplateRenderer
+                    .of<WhitePagePerson>("<div>[[item.age_range]]</div>")
+                    .withProperty("age_range", WhitePagePerson::age_range)
+            ).setHeader("Age")
 
-                addColumn(
-                    TemplateRenderer
-                        .of<WhitePagePerson>("<div>[[item.gender]]</div>")
-                        .withProperty("gender", WhitePagePerson::gender)
-                ).setHeader("Gender")
+            addColumn(
+                TemplateRenderer
+                    .of<WhitePagePerson>("<div>[[item.gender]]</div>")
+                    .withProperty("gender", WhitePagePerson::gender)
+            ).setHeader("Gender")
 
-                addColumn(
-                    TemplateRenderer
-                        .of<WhitePagePerson>("<pre>[[item.address]]</pre>")
-                        .withProperty("address") {
-                            it.address?.run {
-                                "\n".str(
-                                    street_line_1,
-                                    street_line_2,
-                                    ", ".str(city, state_code, "-".str(postal_code, zip4))
-                                )
-                            }
-
+            addColumn(
+                TemplateRenderer
+                    .of<WhitePagePerson>("<pre>[[item.address]]</pre>")
+                    .withProperty("address") {
+                        it.address?.run {
+                            "\n".str(
+                                street_line_1,
+                                street_line_2,
+                                ", ".str(city, state_code, "-".str(postal_code, zip4))
+                            )
                         }
-                ).setHeader("Address").flexGrow = 3
 
-                addColumn(
-                    TemplateRenderer
-                        .of<WhitePagePerson>("<pre>[[item.phones]]</pre>")
-                        .withProperty("phones") {
-                            it.phones
-                                .map { it.line_type + " " + it.phone_number }
-                                .joinToString(separator = "\n")
-                        }
-                ).setHeader("Phone").flexGrow = 2
+                    }
+            ).setHeader("Address").flexGrow = 3
 
-            }
-        grid.setItems(json.toWhitePagePersonList())
+            addColumn(
+                TemplateRenderer
+                    .of<WhitePagePerson>("<pre>[[item.phones]]</pre>")
+                    .withProperty("phones") {
+                        it.phones
+                            .map { it.line_type + " " + it.phone_number }
+                            .joinToString(separator = "\n")
+                    }
+            ).setHeader("Phone").flexGrow = 2
+
+        }
+        items = json.toWhitePagePersonList()
+        grid.setItems(items)
         add(grid)
-
 
         json.showWarnings("warnings")
         json.showError("error")

@@ -17,6 +17,7 @@ import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
+import net.paypredict.patient.id.PatientId
 import java.net.URL
 import java.net.URLEncoder
 import javax.json.Json
@@ -31,7 +32,7 @@ import javax.json.JsonObject
 class WhitePagesPersonView : VerticalLayout() {
 
     private val whitePagesDebug: JsonObject? get() =
-        WhitePages.dir
+        PatientId.dir
             .resolve("whitepages-debug.json")
             .run {
                 when {

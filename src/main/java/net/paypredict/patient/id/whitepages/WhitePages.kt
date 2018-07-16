@@ -1,6 +1,6 @@
 package net.paypredict.patient.id.whitepages
 
-import java.io.File
+import net.paypredict.patient.id.PatientId
 import javax.json.Json
 import javax.json.JsonObject
 
@@ -9,15 +9,7 @@ import javax.json.JsonObject
  * Created by alexei.vylegzhanin@gmail.com on 7/14/2018.
  */
 object WhitePages {
-    val dir = File("/PayPredict/whitepages")
-    private val confDir = dir.resolve("conf")
-    private val confFile = confDir.resolve("whitepages.json")
-
     val conf: JsonObject by lazy {
-        if (confFile.isFile)
-            Json.createReader(confFile.reader()).use { it.readObject() } else
-            Json.createObjectBuilder().build()
+        PatientId.conf["whitepages"] as? JsonObject ?: Json.createObjectBuilder().build()
     }
-
-
 }

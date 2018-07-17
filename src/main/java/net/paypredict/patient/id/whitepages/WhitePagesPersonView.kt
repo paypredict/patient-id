@@ -168,14 +168,14 @@ class WhitePagesPersonView : VerticalLayout() {
                     }
                     val personIdList = grid.personIdList
 
-                    val reference = DBS.Collections.reference()
+                    val case = DBS.Collections.case()
                     fun String.toDBRef(): DBRef = DBRef(whitePagesPersonCollectionName, this)
                     val document = Document("_id", referenceTextField.value).apply {
-                        this["found"] = personIdList.map { it.toDBRef() }
-                        this["selected"] = selectedPersonId.toDBRef()
+                        this["personFound"] = personIdList.map { it.toDBRef() }
+                        this["personSelected"] = selectedPersonId.toDBRef()
                     }
                     try {
-                        reference.insertOne(document)
+                        case.insertOne(document)
                         Notification.show("Reference saved", 1000, Notification.Position.BOTTOM_START)
                         grid.select(null)
                     } catch (e: Exception) {

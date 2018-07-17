@@ -22,8 +22,8 @@ object DBS {
     fun ptn(): MongoDatabase = mongoClient.getDatabase(databaseName)
 
     object Collections {
-        fun reference(): MongoCollection<Document> =
-            ptn().getCollection("reference")
+        fun case(): MongoCollection<Document> =
+            ptn().getCollection("case")
 
         fun whitePagesPerson(): MongoCollection<Document> =
             ptn().getCollection("whitePagesPerson")

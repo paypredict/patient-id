@@ -83,7 +83,7 @@
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-element-mixin:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-usage-statistics:1.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-development-mode-detector:1.0.3" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-lumo-styles:1.1.0-alpha3" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-lumo-styles:1.1.0-beta1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-themable-mixin:1.1.6" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-checkbox-flow:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-checkbox:2.1.1" level="project" />
@@ -92,8 +92,8 @@
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.polymerelements:iron-resizable-behavior:2.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.polymerelements:iron-a11y-announcer:2.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.polymerelements:iron-a11y-keys-behavior:2.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-item:2.1.0-alpha3" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-material-styles:1.1.0-alpha2" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-item:2.1.0-beta2" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-material-styles:1.1.0-beta1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.vaadin:vaadin-overlay:3.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.polymerelements:iron-overlay-behavior:2.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bowergithub.polymerelements:iron-fit-behavior:2.2.0" level="project" />

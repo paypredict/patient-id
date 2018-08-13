@@ -18,8 +18,7 @@ import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
-import net.paypredict.patient.id.DBS
-import net.paypredict.patient.id.PatientId
+import net.paypredict.patient.id.*
 import org.bson.Document
 import java.net.URL
 import java.net.URLEncoder
@@ -30,7 +29,7 @@ import javax.json.JsonObject
  * The main view contains a button and a template element.
  */
 @HtmlImport("styles/shared-styles.html")
-@Route("")
+@Route("white-pages")
 @PageTitle(appTitle)
 class WhitePagesPersonView : VerticalLayout() {
 
@@ -224,17 +223,3 @@ class WhitePagesPersonView : VerticalLayout() {
             init()
         }
 }
-
-operator fun HasComponents.plusAssign(value: Component) {
-    add(value)
-}
-
-private const val appTitle = "Fast and Accurate Patient Data Entry"
-
-private const val appDescription = """
-Our real-time identity validation technology allows entering patient information quickly
-and accurately. Save data entry time, avoid claim denials and mailing problems.
-Start entry with typing name and zip code to get results.
-If too many or too few results returned, enter additional details
-until the exact patient match found.
-"""

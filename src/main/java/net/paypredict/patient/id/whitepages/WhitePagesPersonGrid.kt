@@ -6,9 +6,11 @@ import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H4
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.renderer.TemplateRenderer
-import java.io.StringWriter
-import javax.json.*
-import javax.json.stream.JsonGenerator
+import net.paypredict.patient.id.plusAssign
+import net.paypredict.patient.id.str
+import javax.json.JsonArray
+import javax.json.JsonObject
+import javax.json.JsonString
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -177,15 +179,3 @@ private fun phonesProperties(array: JsonArray?): ReadOnlyProperty<WhitePagePerso
                 }
         }
     }
-
-
-private fun JsonObject.str(name: String): String? =
-    (get(name) as? JsonString)?.string
-
-private val jsonPP: JsonWriterFactory by lazy {
-    Json.createWriterFactory(mapOf<String, Any>(JsonGenerator.PRETTY_PRINTING to true))
-}
-
-private fun JsonObject.toStringPP(): String =
-    StringWriter().use { jsonPP.createWriter(it).write(this); it }.toString().trimStart()
-
